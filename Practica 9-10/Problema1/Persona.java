@@ -26,7 +26,7 @@ abstract class Persona{
 }
 
 class Mexicano extends Persona {
-	String curp; //Variable polimorfica
+	String curp; 
 	Mexicano(String nombre, int edad, Sx sexo, String curp) {
 		this.nombre=nombre;
 		this.sexo=sexo;
@@ -42,15 +42,6 @@ class Mexicano extends Persona {
 
 	@Override
 	boolean servicioMilitar() {
-		/*
-		boolean bandera = false;
-		if(this.edad >= 17 && this.sexo == Sx.MASCULINO) {
-			bandera= true; 
-		}
-		return bandera;
-		*/
-		// el siguiente codigo es equivalente al comentado de arriba
-		
 		return (this.edad >=17 && this.sexo == Sx.MASCULINO) ?  true : false;
 	}
 

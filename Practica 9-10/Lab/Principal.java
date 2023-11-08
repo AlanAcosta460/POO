@@ -1,8 +1,7 @@
 import java.util.HashMap;
 //import 
 class Principal{
-  public static void main(String[] args) 
-      throws OuterException, OuterException.InnerException {
+  public static void main(String[] args) {
     HashMap<String,Persona> gente = new HashMap<String,Persona>();
 
     gente.put("ERZ123220PO",new Mexicano("Eric",19,Sx.MASCULINO, "ERZ123220PO"));

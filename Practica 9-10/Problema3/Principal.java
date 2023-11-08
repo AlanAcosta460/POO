@@ -1,6 +1,5 @@
 import java.util.HashMap;
 import java.util.Scanner;
-//import 
 
 class Principal {
 	public static void main(String[] args)
@@ -35,7 +34,8 @@ class Principal {
 		gente.forEach((k, p) -> {
 			try {
 				if (!p.votar())
-					throw new OuterException("no puede votar : " + p.getNombre());
+					throw new 
+						OuterException("no puede votar : " + p.getNombre());
 			} catch (OuterException n) {
 				System.out.println(n);
 			}
@@ -44,7 +44,8 @@ class Principal {
 		gente.forEach((k, p) -> {
 			try {
 				if (!p.serPresidente())
-					throw new OuterException.InnerException("no puede ser presidente : " + p.getNombre());
+					throw new 
+						OuterException.InnerException("no puede ser presidente : " + p.getNombre());
 			} catch (OuterException.InnerException n) {
 				System.out.println(n);
 			}
@@ -53,7 +54,8 @@ class Principal {
 		gente.forEach((k, p) -> {
 			try {
 				if (!p.servicioMilitar())
-					throw new OuterException("no puede realizar su servicio militar : " + p.getNombre(), true);
+					throw new 
+						OuterException("no puede realizar su servicio militar : " + p.getNombre(), true);
 			} catch (OuterException n) {
 				return;
 			}
@@ -62,7 +64,8 @@ class Principal {
 		gente.forEach((k, p) -> {
 			try {
 				if (!p.jubilar())
-					throw new JubilacionException("no puede jubilarse : " + p.getNombre());
+					throw new 
+						JubilacionException("no puede jubilarse : " + p.getNombre());
 			} catch (JubilacionException n) {
 				System.out.println(n);
 			}

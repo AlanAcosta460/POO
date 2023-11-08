@@ -1,1 +1,5 @@
-public enum Sx{FEMENINO, MASCULINO, INDETERMINADO};
+public enum Sx {
+    FEMENINO, 
+    MASCULINO, 
+    INDETERMINADO
+};

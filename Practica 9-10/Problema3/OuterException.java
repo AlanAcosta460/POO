@@ -13,7 +13,6 @@ class OuterException extends Exception {
 		}
 	}
 
-	// usamos una inner class generica
 	class InnerException2 extends Exception {
 
 		InnerException2(String s) {

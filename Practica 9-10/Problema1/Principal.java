@@ -28,9 +28,8 @@ class Principal {
 		}
 
 		gente.forEach((k,p)-> {System.out.println(k + " : Nombre - " 
-        + p.getNombre() + " : Edad - " + p.getEdad() );});
+        	+ p.getNombre() + " : Edad - " + p.getEdad() );});
     
-		//levantar excepcion por no poder votar
 		gente.forEach((k, p) -> {
 		try {
 			if (!p.votar()) 
@@ -40,7 +39,6 @@ class Principal {
 		}
 		});
 
-		// levantar excepcion por no poder ser presidente
 		gente.forEach((k, p) -> {
 		try {
 			if (!p.serPresidente()) 
@@ -51,7 +49,6 @@ class Principal {
 		}
 		});
 
-		// levantas excepcion para poder realizar servicio militar
 		gente.forEach((k, p) -> {
 			try {
 				if (!p.servicioMilitar()) 

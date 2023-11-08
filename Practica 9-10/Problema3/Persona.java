@@ -1,3 +1,12 @@
+class NoEsMexicanoException extends Exception {
+}
+
+class NoPuedeVotarException extends Exception {
+}
+
+class NoPuedeSerPresidenteException extends Exception {
+}
+
 abstract class Persona {
 	String nombre;
 	int edad;
@@ -26,18 +35,39 @@ abstract class Persona {
 
 	abstract boolean serPresidente();
 
-	public void verificarNacionalidad() 
-			throws NacionalidadInvalidaException {
-		if (this.nacionalidad.equals("Mexicano") && this instanceof Extranjero) {
-			throw new 
-				NacionalidadInvalidaException("Un extranjero no puede ser mexicano.");
+	public void verificarNacionalidad()
+			throws NoEsMexicanoException, NoPuedeVotarException, NoPuedeSerPresidenteException {
+		try {
+			if (!this.nacionalidad.equals("Mexicano")) {
+				throw new NoEsMexicanoException();
+			}
+
+			try {
+				if (!this.votar()) {
+					throw new NoPuedeVotarException();
+				}
+
+				try {
+					if (!this.serPresidente()) {
+						throw new NoPuedeSerPresidenteException();
+					}
+				} catch (NoPuedeSerPresidenteException e) {
+					System.out.println("Puede votar pero no puede ser presidente");
+					throw e;
+				}
+			} catch (NoPuedeVotarException e) {
+				System.out.println("Es mexicano pero no puede votar");
+				throw e;
+			}
+		} catch (NoEsMexicanoException e) {
+			System.out.println("No es mexicano");
+			throw e;
 		}
 	}
 
 	public void verificarEdad() throws EdadInvalidaException {
 		if (this.edad <= 0) {
-			throw new 
-				EdadInvalidaException("La edad no puede ser menor o igual a 0.");
+			throw new EdadInvalidaException("La edad no puede ser menor o igual a 0.");
 		}
 	}
 
@@ -45,8 +75,7 @@ abstract class Persona {
 
 	public void verificarJubilacion() throws JubilacionException {
 		if (this.edad < 64) {
-			throw new 
-				JubilacionException("La persona no cumple con la edad minima para jubilarse.");
+			throw new JubilacionException("La persona no cumple con la edad mínima para jubilarse.");
 		}
 	}
 }
@@ -58,8 +87,7 @@ class Mexicano extends Persona {
 		this.nombre = nombre;
 		this.sexo = sexo;
 		if (edad <= 0) {
-			throw new 
-				EdadInvalidaException("La edad no puede ser menor o igual a 0.");
+			throw new EdadInvalidaException("La edad no puede ser menor o igual a 0.");
 		}
 		this.edad = edad;
 		this.curp = curp;
@@ -93,8 +121,7 @@ class Extranjero extends Persona {
 		this.nombre = nombre;
 		this.sexo = sexo;
 		if (edad <= 0) {
-			throw new 
-        		EdadInvalidaException("La edad no puede ser menor o igual a 0.");
+			throw new EdadInvalidaException("La edad no puede ser menor o igual a 0.");
 		}
 		this.edad = edad;
 		this.nacionalidad = "Extranjero";
