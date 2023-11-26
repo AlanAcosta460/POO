@@ -30,6 +30,8 @@ class Genio {
         }
 
         System.out.println("Tu deseo se ha cumplido!!!\n");
+
+        sc.close();
     }
 }
 
