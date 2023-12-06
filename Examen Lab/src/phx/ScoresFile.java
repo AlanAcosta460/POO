@@ -17,7 +17,7 @@ public class ScoresFile {
      * @param numberOfMoves Número total de movimientos realizados.
      */
     public static void write(String nickName, int maxTileValue, int numberOfMoves) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("scores.txt", true))) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter("archivo.txt", true))) {
             writer.println(nickName + ":" + maxTileValue + ":" + numberOfMoves);
         } catch (IOException e) {
             System.out.println("Error al guardar los puntajes");
