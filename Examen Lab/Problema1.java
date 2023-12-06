@@ -2,7 +2,20 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-public class SimpleCraps extends AbstractSimpleCraps {
+abstract class AbstractSimpleCraps {
+    abstract void generarDados();
+    abstract int adivinar(int punto);
+}
+
+class Dado {
+    int valor;
+
+    public Dado(int valor) {
+        this.valor = valor;
+    }
+}
+
+class Problema1 extends AbstractSimpleCraps {
     ArrayList<Dado> dados = new ArrayList<Dado>();
     int suma;
     int turno = 1;
@@ -35,7 +48,7 @@ public class SimpleCraps extends AbstractSimpleCraps {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        SimpleCraps juego = new SimpleCraps();
+        Problema1 juego = new Problema1();
 
         System.out.print("Ingrese un numero: ");
         int punto = sc.nextInt();
