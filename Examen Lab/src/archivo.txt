@@ -1,4 +1,1 @@
-Alan:32:76
-Alan:128:156
-Alan:16:93
-Player:32:78
+Player:32:85
