@@ -17,7 +17,7 @@ public class Serializacion {
     public static void main(String[] args) {
         ArrayList<Jugador> registros = new ArrayList<>();
         
-        try (Scanner sc = new Scanner(new File("phx/archivo.txt"))) {
+        try (Scanner sc = new Scanner(new File("archivo.txt"))) {
             while (sc.hasNextLine()) {
                 StringTokenizer st = new StringTokenizer(sc.nextLine(), ":");
                 registros.add(new Jugador(st.nextToken(), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
@@ -26,7 +26,7 @@ public class Serializacion {
             e.printStackTrace();
         } 
 
-        try (ObjectOutputStream serializador = new ObjectOutputStream(new FileOutputStream("phx/archivo.ser"))) {
+        try (ObjectOutputStream serializador = new ObjectOutputStream(new FileOutputStream("archivo.ser"))) {
             System.out.println("Serializando...");
             serializador.writeObject(registros);
             serializador.close();
@@ -38,7 +38,7 @@ public class Serializacion {
 
         registros.clear();
 
-        try (ObjectInputStream deserializador = new ObjectInputStream(new FileInputStream("phx/archivo.ser"))) {
+        try (ObjectInputStream deserializador = new ObjectInputStream(new FileInputStream("archivo.ser"))) {
             System.out.println("\nDeserializando...");
             registros = (ArrayList<Jugador>) deserializador.readObject();
             deserializador.close();
