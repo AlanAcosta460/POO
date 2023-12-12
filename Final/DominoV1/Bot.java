@@ -97,29 +97,4 @@ public class Bot extends Jugador {
             e.printStackTrace();
         }   
     }
-
-    public int escanearTablero(ArrayList<Ficha> fichas , ArrayList<Ficha> mesaActual) {
-        int[] repeticiones = new int[fichas.size()];
-
-        for (int i = 0; i < fichas.size(); i++) {
-            for (int j = 0; j < mesaActual.size(); j++) {
-                int caraI = fichas.get(i).getCaraIzq();
-                int caraD = fichas.get(i).getCaraDer();
-                for (int k = 0; k < 2; k++) {
-                    if (caraI == mesaActual.get(j).getCaraIzq() 
-                        || caraI == mesaActual.get(j).getCaraDer()) {
-                        repeticiones[caraI]++;
-                    } else if (caraD == mesaActual.get(j).getCaraIzq() 
-                    || caraD == mesaActual.get(j).getCaraDer()) {
-                        repeticiones[caraD]++;
-                    }
-                    fichas.get(i).girar();
-                }
-            }
-        }
-
-        int max = -1;
-        
-        return 0;
-    }
 }
