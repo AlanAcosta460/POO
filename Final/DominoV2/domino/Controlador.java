@@ -35,14 +35,14 @@ public class Controlador {
                 else { 
                     if (modelo.getTamanioPozo() == 0) { 
                         System.out.println("No puedes jugar, pasas el turno");
-                        esperar();
+                        esperar(ESPERA);
                     } else {
-                        esperar();
+                        esperar(ESPERA);
                         System.out.println("No puedes jugar, robas una ficha");
-                        esperar();
+                        esperar(ESPERA);
                         modelo.getJugador(0).robar(modelo.getPozo());
                         Vista.mostrarFichas(modelo.getJugador(0).getFichas());
-                        esperar();
+                        esperar(ESPERA);
                     }
                 }
             }
@@ -59,12 +59,12 @@ public class Controlador {
             Vista.mostrarEmpate();
         else
             Vista.mostrarGanador(resultado);
-        esperar();
+        esperar(5000);
     }
 
-    static private void esperar() {
+    static private void esperar(int tiempo) {
         try {
-            Thread.sleep(ESPERA);
+            Thread.sleep(tiempo);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
