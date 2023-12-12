@@ -7,7 +7,7 @@ public class Controlador {
     private static Scanner sc = new Scanner(System.in);
     private static Modelo modelo;
     private static Musica musica = new Musica();
-    private static final int ESPERA = 3000;
+    private static final int ESPERA = 000;
     private static int opcion = 0;
 
     public static void main(String[] args) {

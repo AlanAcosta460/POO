@@ -66,7 +66,7 @@ public class Vista {
 
     public static void mostrarHistorial(ArrayList<Partida> historial) {
         System.out.println("%%%%%%%%%%%%%%% Historial de partidas %%%%%%%%%%%%%%%");
-        System.out.println("Nombre\t\tTurno\t\tFecha");
+        System.out.println("Ganador\t\tTurno\t\tFecha");
         for (Partida partida : historial)
             System.out.println(partida.getNombre() + "\t\t" + partida.getTurno() + "\t\t" + partida.getFecha());
     }
