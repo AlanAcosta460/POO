@@ -6,8 +6,7 @@ import java.util.Random;
 public class Modelo {
     private ArrayList<Ficha> mesa = new ArrayList<Ficha>();
     private ArrayList<Ficha> pozo = new ArrayList<Ficha>();
-    private ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
-    private int turno;
+    private ArrayList<Jugador> jugadores = new ArrayList<Jugador>();    private int turno;
 
     public Modelo(String nombre) {
         jugadores.add(new Persona(nombre));
@@ -30,7 +29,6 @@ public class Modelo {
     public Modelo(Configuracion conf) {
         this.pozo = conf.getPozo();
         this.jugadores = conf.getJugadores();
-        this.decidirPrimerTurno();
         this.turno = 1;
     }
 
@@ -66,7 +64,7 @@ public class Modelo {
         Random random = new Random();
 
         for (int i = 0; i <= 6; i++) 
-            for (int j = i; j <= 6; j++) 
+            for (int j = i; j <= 6; j++)
                 pozo.add(new Ficha(i, j));
 
         for (int i = 0; i < pozo.size(); i++) {
@@ -85,19 +83,19 @@ public class Modelo {
     }
 
     private void decidirPrimerTurno() {
-        int max = -1, turno = -1;
+        int max = -1, posicion = -1;
 
         for (Jugador jugador : jugadores) {
             for (int i = 0; i < 7; i++) {
                 if (jugador.getFicha(i).esMula() && jugador.getFicha(i).getSuma() > max) {
                     max = jugador.getFicha(i).getSuma();
-                    turno = jugadores.indexOf(jugador);
+                    posicion = jugadores.indexOf(jugador);
                 }
             }
         }
 
-        if (turno != -1) {
-            if (turno == 1) 
+        if (posicion != -1) {
+            if (posicion == 1) 
                 cambiarTurno();
             return;
         }
@@ -107,12 +105,12 @@ public class Modelo {
             for (int i = 0; i < 7; i++) {
                 if (jugador.getFicha(i).getSuma() > max) {
                     max = jugador.getFicha(i).getSuma();
-                    turno = jugadores.indexOf(jugador);
+                    posicion = jugadores.indexOf(jugador);
                 }
             }
         }
 
-        if (turno == 1) 
+        if (posicion == 1) 
             cambiarTurno();
     }
 

@@ -1,12 +1,13 @@
 package domino;
 
 import java.util.ArrayList;
+import java.io.Serializable;
 
 /**
  * Esta clase abstracta representa un jugador de domino
  */
 
-public abstract class Jugador {
+public abstract class Jugador implements Serializable {
     protected String nombre;
     protected ArrayList<Ficha> fichas = new ArrayList<Ficha>();
     protected boolean puedeJugar = true;

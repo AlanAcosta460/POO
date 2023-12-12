@@ -30,7 +30,7 @@ public class Historial {
     public static void guardarResultado(String nombre, int turno) {
         try (PrintWriter ps = new PrintWriter(new FileWriter("historial/historial.txt", true))) {
             Date fecha = new Date();
-            ps.println(nombre + " | " + turno + " | " + fecha.toString());
+            ps.println(nombre + "|" + turno + "|" + fecha.toString());
         } catch (Exception e) {
             System.out.println("Error al guardar el resultado");
         }

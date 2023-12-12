@@ -72,9 +72,9 @@ public class Vista {
     }
 
     public static void mostrarArchivos(ArrayList<String> archivos) {
-
         System.out.println("%%%%%%%%%%%%%%% Archivos de configuracion %%%%%%%%%%%%%%%");
         for (int i = 0; i < archivos.size(); i++)
             System.out.println((i + 1) + ". " + archivos.get(i));
+        System.out.println("Cualquier otro numero para volver al menu principal");
     }
 }

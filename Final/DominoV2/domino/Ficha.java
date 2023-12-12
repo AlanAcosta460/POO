@@ -1,10 +1,12 @@
 package domino;
 
+import java.io.Serializable;
+
 /**
  * Esta clase representa una ficha de domino con dos caras
  */
 
-public class Ficha {
+public class Ficha implements Serializable {
     private int caraIzq;
     private int caraDer;
     private int suma;
@@ -62,6 +64,10 @@ public class Ficha {
         int aux = caraIzq;
         caraIzq = caraDer;
         caraDer = aux;
+    }
+
+    public Ficha copiar() {
+        return new Ficha(this.caraIzq, this.caraDer);
     }
 
     /**

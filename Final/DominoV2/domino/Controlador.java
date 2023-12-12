@@ -23,9 +23,11 @@ public class Controlador {
                     Vista.pedirNombre();
                     String nombre = sc.next();
                     modelo = new Modelo(nombre);
+                    guardarConfiguracion();
                     break;
                 case 2: 
                     modelo = new Modelo();
+                    guardarConfiguracion();
                     break;
                 case 3: 
                     Vista.mostrarHistorial(Historial.getHistorial());
@@ -42,28 +44,20 @@ public class Controlador {
                         continue;
                     } else {
                         Vista.mostrarArchivos(configuraciones);
-                        while (true) {
-                            System.out.println("\nIngrese el numero de la partida que desea cargar");
-                            System.out.print("$ ");
-                            int respuesta = sc.nextInt();
-                            if (respuesta > 0 && respuesta <= configuraciones.size()) {
-                                Configuracion conf = new Configuracion(
-                                    configuraciones.get(respuesta - 1));
-                                modelo = new Modelo(conf);
-                                break;
-                            } else {
-                                System.out.println("Ingrese un numero valido");
-                                esperar(2000);
-                            }
-                        }
+                        System.out.println("\nIngrese el numero de la partida que desea cargar");
+                        System.out.print("$ ");
+                        int respuesta = sc.nextInt();
+                        if (respuesta > 0 && respuesta <= configuraciones.size()) {
+                            Configuracion conf = new Configuracion(
+                                configuraciones.get(respuesta - 1));
+                            modelo = new Modelo(conf);
+                        } else 
+                            continue;
                     }
                     break;
                 default:
                     System.exit(0);
             }
-
-            ArrayList<Ficha> copiaPozo = new ArrayList<Ficha>(modelo.getPozo());
-            ArrayList<Jugador> copiaJugadores = new ArrayList<Jugador>(modelo.getJugadores());
             
             musica.reiniciarMusica();
             while (continuarJuego()) {
@@ -116,18 +110,10 @@ public class Controlador {
 
             Historial.guardarResultado(resultado, modelo.getTurno());
             esperar(5000);   
-
-            System.out.println("\nQuieres guardar la configuracion de la partida? (s/n)");
-            String respuesta = sc.next();
-            if (respuesta.equals("s")) {
-                System.out.println("Ingrese el nombre de la partida");
-                String nombre = sc.next();
-                Configuracion.guardarConfiguracion(nombre, copiaPozo, copiaJugadores);
-            }
         }
     }
 
-    static private void esperar(int tiempo) {
+    private static void esperar(int tiempo) {
         try {
             Thread.sleep(tiempo);
         } catch (InterruptedException e) {
@@ -135,13 +121,26 @@ public class Controlador {
         }
     }
 
-    static private boolean continuarJuego() {
+    private static void guardarConfiguracion() {
+        System.out.println("\nQuieres guardar la configuracion de la partida? (s/n)");
+        System.out.print("$ ");
+        char respuesta = sc.next().charAt(0);
+        respuesta = Character.toLowerCase(respuesta);
+        if (respuesta == 's') {
+            System.out.println("\nIngrese el nombre de la partida");
+            System.out.print("$ ");
+            String nombre = sc.next();
+            Configuracion.guardarConfiguracion(nombre, modelo.getPozo(), modelo.getJugadores());
+        }
+    }
+
+    private static boolean continuarJuego() {
         return (modelo.getJugador(0).puedeJugar() || 
                 modelo.getJugador(1).puedeJugar()) || 
                 modelo.getTamanioPozo() != 0;
     }
 
-    static private String decidirGanador() {
+    private static String decidirGanador() {
         if (!modelo.getJugador(0).puedeJugar() && 
                 !modelo.getJugador(1).puedeJugar() &&
                 modelo.getTamanioPozo() == 0) {
