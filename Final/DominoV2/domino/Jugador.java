@@ -58,16 +58,13 @@ public abstract class Jugador {
      * @return puedeJugar true si el jugador puede jugar, false si no
      */
     public boolean puedeJugar(ArrayList<Ficha> mesaActual) {
-        for (Ficha ficha : fichas) {
+        puedeJugar = false;
+        for (Ficha ficha : fichas)
             if (ficha.getCaraIzq() == mesaActual.get(0).getCaraIzq() || 
                     ficha.getCaraDer() == mesaActual.get(0).getCaraIzq() || 
                     ficha.getCaraIzq() == mesaActual.get(mesaActual.size() - 1).getCaraDer() || 
-                    ficha.getCaraDer() == mesaActual.get(mesaActual.size() - 1).getCaraDer()) {
+                    ficha.getCaraDer() == mesaActual.get(mesaActual.size() - 1).getCaraDer()) 
                 puedeJugar = true;    
-                return puedeJugar;
-            }
-        }
-        puedeJugar = false;
         return puedeJugar;
     }
 
@@ -80,15 +77,81 @@ public abstract class Jugador {
         pozo.remove(0);
     }
 
-    /**
-     * Metodo abstracto para el primer turno del jugador
-     * @param mesaActual La fichas de la mesa actual
-     */
-    public abstract void primerTurno(ArrayList<Ficha> mesaActual);
+    public void primerTurno(ArrayList<Ficha> mesaActual) {
+        int indice = -1; 
+        int max = -1;
 
-    /**
-     * Metodo abstracto para el turno del jugador
-     * @param mesaActual La fichas de la mesa actual
-     */
-    public abstract void turno(ArrayList<Ficha> mesaActual);
+        for (Ficha ficha : fichas) {
+            if (ficha.esMula() && ficha.getSuma() > max) {
+                max = ficha.getSuma();
+                indice = fichas.indexOf(ficha);
+            }
+        }
+
+        if (indice != -1)
+            System.out.println(nombre + " juega la mula mas alta: " + fichas.get(indice));
+        else {
+            for (Ficha ficha : fichas) {
+                if (ficha.getSuma() > max) {
+                    max = ficha.getSuma();
+                    indice = fichas.indexOf(ficha);
+                }
+            }
+            System.out.println(nombre + " juega la ficha mas alta: " + fichas.get(indice));
+        }
+
+        mesaActual.add(fichas.get(indice));
+        fichas.remove(indice);
+    }
+
+    public final void turno(ArrayList<Ficha> mesaActual) {
+        int indice = -1;
+        char orientacion;
+        String respuesta;
+
+        do {
+            respuesta = buscarFicha(mesaActual);
+            orientacion = respuesta.charAt(0);
+            indice = Integer.parseInt(respuesta.substring(1));  
+        } while (!validarFicha(mesaActual, indice, orientacion));
+
+        System.out.println(nombre + " juegas la ficha: " + (indice + 1) + " - " + fichas.get(indice));
+
+        jugarFicha(mesaActual, indice, orientacion);
+    }
+
+    protected abstract String buscarFicha(ArrayList<Ficha> mesaActual);
+
+    private boolean validarFicha(ArrayList<Ficha> mesaActual, int indice, char orientacion) {
+        switch (orientacion) {
+            case 'i':
+                if (fichas.get(indice).getCaraIzq() == mesaActual.get(0).getCaraIzq()) {
+                    fichas.get(indice).girar();
+                    return true;
+                }
+                if (fichas.get(indice).getCaraDer() == mesaActual.get(0).getCaraIzq()) 
+                    return true;
+                return false;
+
+            case 'd':
+                if (fichas.get(indice).getCaraDer() == mesaActual.get(mesaActual.size() - 1).getCaraDer()) {
+                    fichas.get(indice).girar();
+                    return true;
+                }
+                if (fichas.get(indice).getCaraIzq() == mesaActual.get(mesaActual.size() - 1).getCaraDer()) 
+                    return true;
+                return false;
+
+            default:
+                return false;   
+        }
+    }
+
+    private void jugarFicha(ArrayList<Ficha> mesaActual, int indice, char orientacion) {
+        if (orientacion == 'i')
+            mesaActual.add(0, fichas.get(indice));
+        else if (orientacion == 'd')
+            mesaActual.add(fichas.get(indice));
+        fichas.remove(indice);
+    }
 }

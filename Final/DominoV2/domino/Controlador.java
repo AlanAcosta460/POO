@@ -9,7 +9,7 @@ public class Controlador {
     private static Scanner sc = new Scanner(System.in);
     private static Clip musica = null;
     private static Modelo modelo;
-    private static final int ESPERA = 3000;
+    private static final int ESPERA = 0;
 
     public static void main(String[] args) {
         iniciarMusica();
@@ -30,28 +30,34 @@ public class Controlador {
             if (modelo.getTurno() == 1) 
                 modelo.getJugador(0).primerTurno(modelo.getMesa());
             else {
-                if (modelo.getJugador(0).puedeJugar(modelo.getMesa())) 
-                    modelo.getJugador(0).turno(modelo.getMesa());
-                else { 
-                    if (modelo.getTamanioPozo() == 0) { 
-                        System.out.println("No puedes jugar, pasas el turno");
+                if (modelo.getJugador(0).puedeJugar(modelo.getMesa())) {
+                    if (modelo.getJugador(0) instanceof Bot)
                         esperar(ESPERA);
-                    } else {
+                    modelo.getJugador(0).turno(modelo.getMesa());
+                }
+                else { 
+                    if (modelo.getTamanioPozo() == 0) 
+                        System.out.println("No puedes jugar, pasas el turno");
+                    else {
                         esperar(ESPERA);
                         System.out.println("No puedes jugar, robas una ficha");
                         esperar(ESPERA);
                         modelo.getJugador(0).robar(modelo.getPozo());
                         Vista.mostrarFichas(modelo.getJugador(0).getFichas());
-                        esperar(ESPERA);
                     }
                 }
             }
+
+            esperar(ESPERA);
 
             if (modelo.getJugador(0).getFichas().isEmpty())
                 break;
         
             modelo.cambiarTurno();
         }
+
+        limpiarPantalla();
+        Vista.mostrarMesa(modelo.getMesa());
 
         musicaFinal();
         String resultado = decidirGanador();
