@@ -39,7 +39,7 @@ public class Configuracion implements Serializable {
     }
 
     public static ArrayList<String> getListaArchivos() {
-        File carpeta = new File("/historial/configuraciones");
+        File carpeta = new File("../configuraciones");
 
         if (carpeta.exists() && carpeta.isDirectory()) {
             File[] archivos = carpeta.listFiles();
@@ -61,7 +61,7 @@ public class Configuracion implements Serializable {
     }
 
     public static void guardarConfiguracion(String nombreArchivo, ArrayList<Ficha> pozo, ArrayList<Jugador> jugadores) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("/historial/configuraciones/" + nombreArchivo + ".txt"))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("../configuraciones/" + nombreArchivo + ".txt"))) {
             oos.writeObject(new Configuracion(pozo, jugadores));
         } catch (Exception e) {
             System.out.println("Error al guardar la configuracion");

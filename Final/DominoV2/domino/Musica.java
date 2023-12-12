@@ -6,15 +6,18 @@ import javax.sound.sampled.Clip;
 public class Musica {
     private static Clip musica = null;
     
-    public static void iniciarMusica() {
+    public void reiniciarMusica() {
         try {
+            if (musica != null)
+                musica.stop();
+
             musica = AudioSystem.getClip();
             musica.open(AudioSystem.getAudioInputStream(Controlador.class.getResource("/recursos/MoonlightSonata.wav")));
             musica.loop(Clip.LOOP_CONTINUOUSLY); 
         } catch (Exception e) {}
     }
 
-    public static void musicaFinal() {
+    public void musicaFinal() {
         try {
             if (musica != null)
                 musica.stop();

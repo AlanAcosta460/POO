@@ -6,13 +6,13 @@ import java.util.ArrayList;
 public class Controlador {
     private static Scanner sc = new Scanner(System.in);
     private static Modelo modelo;
+    private static Musica musica = new Musica();
     private static final int ESPERA = 3000;
     private static int opcion = 0;
 
     public static void main(String[] args) {
         while (true) {
             Vista.limpiarPantalla();
-            Musica.iniciarMusica();
 
             Vista.mostrarMenu();
             opcion = sc.nextInt();
@@ -36,13 +36,14 @@ public class Controlador {
                 case 4:
                     ArrayList<String> configuraciones = Configuracion.getListaArchivos();
                     if (configuraciones == null) {
-                        System.out.println("No hay partidas guardadas");
-                        esperar(ESPERA);
+                        System.out.println("\n\nPresione enter para continuar...");
+                        sc.nextLine();      
+                        sc.nextLine();
                         continue;
                     } else {
                         Vista.mostrarArchivos(configuraciones);
                         while (true) {
-                            System.out.println("Ingrese el numero de la partida que desea cargar");
+                            System.out.println("\nIngrese el numero de la partida que desea cargar");
                             System.out.print("$ ");
                             int respuesta = sc.nextInt();
                             if (respuesta > 0 && respuesta <= configuraciones.size()) {
@@ -63,7 +64,8 @@ public class Controlador {
 
             ArrayList<Ficha> copiaPozo = new ArrayList<Ficha>(modelo.getPozo());
             ArrayList<Jugador> copiaJugadores = new ArrayList<Jugador>(modelo.getJugadores());
-
+            
+            musica.reiniciarMusica();
             while (continuarJuego()) {
                 Vista.limpiarPantalla();
 
@@ -105,7 +107,7 @@ public class Controlador {
             Vista.limpiarPantalla();
             Vista.mostrarMesa(modelo.getMesa());
 
-            Musica.musicaFinal();
+            musica.musicaFinal();
             String resultado = decidirGanador();
             if (resultado.equals("Empate"))
                 Vista.mostrarEmpate();
