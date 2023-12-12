@@ -54,16 +54,16 @@ public abstract class Jugador {
 
     /**
      * Metodo setter para saber si el jugador puede jugar
-     * @param mesaActual La fichas de la mesa actual
+     * @param mesa La fichas de la mesa actual
      * @return puedeJugar true si el jugador puede jugar, false si no
      */
-    public boolean puedeJugar(ArrayList<Ficha> mesaActual) {
+    public boolean puedeJugar(ArrayList<Ficha> mesa) {
         puedeJugar = false;
         for (Ficha ficha : fichas)
-            if (ficha.getCaraIzq() == mesaActual.get(0).getCaraIzq() || 
-                    ficha.getCaraDer() == mesaActual.get(0).getCaraIzq() || 
-                    ficha.getCaraIzq() == mesaActual.get(mesaActual.size() - 1).getCaraDer() || 
-                    ficha.getCaraDer() == mesaActual.get(mesaActual.size() - 1).getCaraDer()) 
+            if (ficha.getCaraIzq() == mesa.get(0).getCaraIzq() || 
+                    ficha.getCaraDer() == mesa.get(0).getCaraIzq() || 
+                    ficha.getCaraIzq() == mesa.get(mesa.size() - 1).getCaraDer() || 
+                    ficha.getCaraDer() == mesa.get(mesa.size() - 1).getCaraDer()) 
                 puedeJugar = true;    
         return puedeJugar;
     }
@@ -77,7 +77,7 @@ public abstract class Jugador {
         pozo.remove(0);
     }
 
-    public void primerTurno(ArrayList<Ficha> mesaActual) {
+    public void primerTurno(ArrayList<Ficha> mesa) {
         int indice = -1; 
         int max = -1;
 
@@ -100,45 +100,45 @@ public abstract class Jugador {
             System.out.println(nombre + " juega la ficha mas alta: " + fichas.get(indice));
         }
 
-        mesaActual.add(fichas.get(indice));
+        mesa.add(fichas.get(indice));
         fichas.remove(indice);
     }
 
-    public final void turno(ArrayList<Ficha> mesaActual) {
+    public final void turno(ArrayList<Ficha> mesa) {
         int indice = -1;
         char orientacion;
         String respuesta;
 
         do {
-            respuesta = buscarFicha(mesaActual);
+            respuesta = buscarFicha(mesa);
             orientacion = respuesta.charAt(0);
             indice = Integer.parseInt(respuesta.substring(1));  
-        } while (!validarFicha(mesaActual, indice, orientacion));
+        } while (!validarFicha(mesa, indice, orientacion));
 
         System.out.println(nombre + " juegas la ficha: " + (indice + 1) + " - " + fichas.get(indice));
 
-        jugarFicha(mesaActual, indice, orientacion);
+        jugarFicha(mesa, indice, orientacion);
     }
 
-    protected abstract String buscarFicha(ArrayList<Ficha> mesaActual);
+    protected abstract String buscarFicha(ArrayList<Ficha> mesa);
 
-    private boolean validarFicha(ArrayList<Ficha> mesaActual, int indice, char orientacion) {
+    private boolean validarFicha(ArrayList<Ficha> mesa, int indice, char orientacion) {
         switch (orientacion) {
             case 'i':
-                if (fichas.get(indice).getCaraIzq() == mesaActual.get(0).getCaraIzq()) {
+                if (fichas.get(indice).getCaraIzq() == mesa.get(0).getCaraIzq()) {
                     fichas.get(indice).girar();
                     return true;
                 }
-                if (fichas.get(indice).getCaraDer() == mesaActual.get(0).getCaraIzq()) 
+                if (fichas.get(indice).getCaraDer() == mesa.get(0).getCaraIzq()) 
                     return true;
                 return false;
 
             case 'd':
-                if (fichas.get(indice).getCaraDer() == mesaActual.get(mesaActual.size() - 1).getCaraDer()) {
+                if (fichas.get(indice).getCaraDer() == mesa.get(mesa.size() - 1).getCaraDer()) {
                     fichas.get(indice).girar();
                     return true;
                 }
-                if (fichas.get(indice).getCaraIzq() == mesaActual.get(mesaActual.size() - 1).getCaraDer()) 
+                if (fichas.get(indice).getCaraIzq() == mesa.get(mesa.size() - 1).getCaraDer()) 
                     return true;
                 return false;
 
@@ -147,11 +147,11 @@ public abstract class Jugador {
         }
     }
 
-    private void jugarFicha(ArrayList<Ficha> mesaActual, int indice, char orientacion) {
+    private void jugarFicha(ArrayList<Ficha> mesa, int indice, char orientacion) {
         if (orientacion == 'i')
-            mesaActual.add(0, fichas.get(indice));
+            mesa.add(0, fichas.get(indice));
         else if (orientacion == 'd')
-            mesaActual.add(fichas.get(indice));
+            mesa.add(fichas.get(indice));
         fichas.remove(indice);
     }
 }

@@ -16,15 +16,15 @@ public class Bot extends Jugador {
     }
 
     @Override
-    protected String buscarFicha(ArrayList<Ficha> mesaActual) {
+    protected String buscarFicha(ArrayList<Ficha> mesa) {
         for (Ficha ficha : fichas) {
-            if (ficha.getCaraIzq() == mesaActual.get(0).getCaraIzq())
+            if (ficha.getCaraIzq() == mesa.get(0).getCaraIzq())
                 return "i" + fichas.indexOf(ficha);
-            else if (ficha.getCaraDer() == mesaActual.get(0).getCaraIzq()) 
+            else if (ficha.getCaraDer() == mesa.get(0).getCaraIzq()) 
                 return "i" + fichas.indexOf(ficha);
-            else if (ficha.getCaraIzq() == mesaActual.get(mesaActual.size() - 1).getCaraDer()) 
+            else if (ficha.getCaraIzq() == mesa.get(mesa.size() - 1).getCaraDer()) 
                 return "d" + fichas.indexOf(ficha);
-            else if (ficha.getCaraDer() == mesaActual.get(mesaActual.size() - 1).getCaraDer()) 
+            else if (ficha.getCaraDer() == mesa.get(mesa.size() - 1).getCaraDer()) 
                 return "d" + fichas.indexOf(ficha);
         }
 

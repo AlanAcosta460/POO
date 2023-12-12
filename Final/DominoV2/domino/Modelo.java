@@ -9,17 +9,27 @@ public class Modelo {
     private ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
     private int turno;
 
-    public Modelo(int tipoJuego) {
-        if (tipoJuego == 1) {
-            jugadores.add(new Persona("Jugador"));
-            jugadores.add(new Bot("Bot"));
-        } 
-        else if (tipoJuego == 2) {
-            jugadores.add(new Bot("Bot 1"));
-            jugadores.add(new Bot("Bot 2"));
-        }
+    public Modelo(String nombre) {
+        jugadores.add(new Persona(nombre));
+        jugadores.add(new Bot("Bot"));
 
         this.repartirFichas();
+        this.decidirPrimerTurno();
+        this.turno = 1;
+    }
+
+    public Modelo() {
+        jugadores.add(new Bot("Bot 1"));
+        jugadores.add(new Bot("Bot 2"));
+
+        this.repartirFichas();
+        this.decidirPrimerTurno();
+        this.turno = 1;
+    }
+
+    public Modelo(Configuracion conf) {
+        this.pozo = conf.getPozo();
+        this.jugadores = conf.getJugadores();
         this.decidirPrimerTurno();
         this.turno = 1;
     }
@@ -38,6 +48,10 @@ public class Modelo {
 
     public int getTamanioPozo() {
         return pozo.size();
+    }
+
+    public ArrayList<Jugador> getJugadores() {
+        return jugadores;
     }
 
     public Jugador getJugador(int i) {

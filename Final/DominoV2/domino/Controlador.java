@@ -1,71 +1,128 @@
 package domino;
 
 import java.util.Scanner;
-
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
+import java.util.ArrayList;
 
 public class Controlador {
     private static Scanner sc = new Scanner(System.in);
-    private static Clip musica = null;
     private static Modelo modelo;
-    private static final int ESPERA = 0;
+    private static final int ESPERA = 3000;
+    private static int opcion = 0;
 
     public static void main(String[] args) {
-        iniciarMusica();
+        while (true) {
+            Vista.limpiarPantalla();
+            Musica.iniciarMusica();
 
-        Vista.mostrarMenu();
-        int tipoJuego = sc.nextInt();
-        modelo = new Modelo(tipoJuego);
+            Vista.mostrarMenu();
+            opcion = sc.nextInt();
 
-        while (continuarJuego()) {
-            limpiarPantalla();
-
-            Vista.mostrarMesa(modelo.getMesa());
-            Vista.mostrarPozo(modelo.getTamanioPozo());
-
-            Vista.mostrarTurno(modelo.getJugador(0).getNombre());
-            Vista.mostrarFichas(modelo.getJugador(0).getFichas());
-
-            if (modelo.getTurno() == 1) 
-                modelo.getJugador(0).primerTurno(modelo.getMesa());
-            else {
-                if (modelo.getJugador(0).puedeJugar(modelo.getMesa())) {
-                    if (modelo.getJugador(0) instanceof Bot)
+            Vista.limpiarPantalla();
+            switch (opcion) {
+                case 1: 
+                    Vista.pedirNombre();
+                    String nombre = sc.next();
+                    modelo = new Modelo(nombre);
+                    break;
+                case 2: 
+                    modelo = new Modelo();
+                    break;
+                case 3: 
+                    Vista.mostrarHistorial(Historial.getHistorial());
+                    System.out.println("\n\nPresione enter para continuar...");
+                    sc.nextLine();
+                    sc.nextLine();
+                    continue;
+                case 4:
+                    ArrayList<String> configuraciones = Configuracion.getListaArchivos();
+                    if (configuraciones == null) {
+                        System.out.println("No hay partidas guardadas");
                         esperar(ESPERA);
-                    modelo.getJugador(0).turno(modelo.getMesa());
-                }
-                else { 
-                    if (modelo.getTamanioPozo() == 0) 
-                        System.out.println("No puedes jugar, pasas el turno");
-                    else {
-                        esperar(ESPERA);
-                        System.out.println("No puedes jugar, robas una ficha");
-                        esperar(ESPERA);
-                        modelo.getJugador(0).robar(modelo.getPozo());
-                        Vista.mostrarFichas(modelo.getJugador(0).getFichas());
+                        continue;
+                    } else {
+                        Vista.mostrarArchivos(configuraciones);
+                        while (true) {
+                            System.out.println("Ingrese el numero de la partida que desea cargar");
+                            System.out.print("$ ");
+                            int respuesta = sc.nextInt();
+                            if (respuesta > 0 && respuesta <= configuraciones.size()) {
+                                Configuracion conf = new Configuracion(
+                                    configuraciones.get(respuesta - 1));
+                                modelo = new Modelo(conf);
+                                break;
+                            } else {
+                                System.out.println("Ingrese un numero valido");
+                                esperar(2000);
+                            }
+                        }
                     }
-                }
+                    break;
+                default:
+                    System.exit(0);
             }
 
-            esperar(ESPERA);
+            ArrayList<Ficha> copiaPozo = new ArrayList<Ficha>(modelo.getPozo());
+            ArrayList<Jugador> copiaJugadores = new ArrayList<Jugador>(modelo.getJugadores());
 
-            if (modelo.getJugador(0).getFichas().isEmpty())
-                break;
-        
-            modelo.cambiarTurno();
+            while (continuarJuego()) {
+                Vista.limpiarPantalla();
+
+                Vista.mostrarMesa(modelo.getMesa());
+                Vista.mostrarPozo(modelo.getTamanioPozo());
+
+                Vista.mostrarTurno(modelo.getJugador(0).getNombre());
+                Vista.mostrarFichas(modelo.getJugador(0).getFichas());
+
+                if (modelo.getTurno() == 1) 
+                    modelo.getJugador(0).primerTurno(modelo.getMesa());
+                else {
+                    if (modelo.getJugador(0).puedeJugar(modelo.getMesa())) {
+                        if (modelo.getJugador(0) instanceof Bot)
+                            esperar(ESPERA);
+                        modelo.getJugador(0).turno(modelo.getMesa());
+                    }
+                    else { 
+                        if (modelo.getTamanioPozo() == 0) 
+                            System.out.println("No puedes jugar, pasas el turno");
+                        else {
+                            esperar(ESPERA);
+                            System.out.println("No puedes jugar, robas una ficha");
+                            esperar(ESPERA);
+                            modelo.getJugador(0).robar(modelo.getPozo());
+                            Vista.mostrarFichas(modelo.getJugador(0).getFichas());
+                        }
+                    }
+                }
+
+                esperar(ESPERA);
+
+                if (modelo.getJugador(0).getFichas().isEmpty())
+                    break;
+            
+                modelo.cambiarTurno();
+            }
+
+            Vista.limpiarPantalla();
+            Vista.mostrarMesa(modelo.getMesa());
+
+            Musica.musicaFinal();
+            String resultado = decidirGanador();
+            if (resultado.equals("Empate"))
+                Vista.mostrarEmpate();
+            else
+                Vista.mostrarGanador(resultado);
+
+            Historial.guardarResultado(resultado, modelo.getTurno());
+            esperar(5000);   
+
+            System.out.println("\nQuieres guardar la configuracion de la partida? (s/n)");
+            String respuesta = sc.next();
+            if (respuesta.equals("s")) {
+                System.out.println("Ingrese el nombre de la partida");
+                String nombre = sc.next();
+                Configuracion.guardarConfiguracion(nombre, copiaPozo, copiaJugadores);
+            }
         }
-
-        limpiarPantalla();
-        Vista.mostrarMesa(modelo.getMesa());
-
-        musicaFinal();
-        String resultado = decidirGanador();
-        if (resultado.equals("Empate"))
-            Vista.mostrarEmpate();
-        else
-            Vista.mostrarGanador(resultado);
-        esperar(5000);
     }
 
     static private void esperar(int tiempo) {
@@ -76,44 +133,10 @@ public class Controlador {
         }
     }
 
-    static private void iniciarMusica() {
-        try {
-            musica = AudioSystem.getClip();
-            musica.open(AudioSystem.getAudioInputStream(Controlador.class.getResource("/recursos/MoonlightSonata.wav")));
-            musica.loop(Clip.LOOP_CONTINUOUSLY); 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    static private void musicaFinal() {
-        try {
-            if (musica != null)
-                musica.stop();
-            
-            musica = AudioSystem.getClip();
-            musica.open(AudioSystem.getAudioInputStream(Controlador.class.getResource("/recursos/Victoria.wav")));
-            musica.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } 
-    }
-
     static private boolean continuarJuego() {
         return (modelo.getJugador(0).puedeJugar() || 
                 modelo.getJugador(1).puedeJugar()) || 
                 modelo.getTamanioPozo() != 0;
-    }
-
-    static private void limpiarPantalla() {
-        try {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        } catch (Exception e) {}
-
-        // Linux
-        try {
-            new ProcessBuilder("clear").inheritIO().start().waitFor();
-        } catch (Exception e) {}
     }
 
     static private String decidirGanador() {
