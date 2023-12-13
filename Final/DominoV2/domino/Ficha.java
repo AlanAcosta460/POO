@@ -66,10 +66,6 @@ public class Ficha implements Serializable {
         caraDer = aux;
     }
 
-    public Ficha copiar() {
-        return new Ficha(this.caraIzq, this.caraDer);
-    }
-
     /**
      * Imprime la ficha con el formato [caraIzq|caraDer]
      */

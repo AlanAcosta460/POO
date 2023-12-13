@@ -109,12 +109,16 @@ public abstract class Jugador implements Serializable {
         int indice = -1;
         char orientacion;
         String respuesta;
+        boolean validacion = true;
 
         do {
             respuesta = buscarFicha(mesa);
             orientacion = respuesta.charAt(0);
-            indice = Integer.parseInt(respuesta.substring(1));  
-        } while (!validarFicha(mesa, indice, orientacion));
+            indice = Integer.parseInt(respuesta.substring(1));
+            validacion = validarFicha(mesa, indice, orientacion);  
+            if (!validacion)
+                System.out.println("Ficha inválida\n");
+        } while (!validacion);
 
         System.out.println(nombre + " juegas la ficha: " + (indice + 1) + " - " + fichas.get(indice));
 

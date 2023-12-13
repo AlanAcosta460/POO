@@ -23,7 +23,7 @@ public class Configuracion implements Serializable {
             this.pozo = conf.getPozo();
             this.jugadores = conf.getJugadores();
         } catch (Exception e) {
-            System.out.println("Error al cargar la configuración");
+            System.out.println("Error al cargar la configuracion");
         }
     }
     
@@ -56,7 +56,7 @@ public class Configuracion implements Serializable {
                 listaArchivos.addAll(nombresArchivos);
                 return listaArchivos;
             } else
-                System.out.println("La carpeta está vacía.");
+                System.out.println("La carpeta esta vacia.");
         } else
             System.out.println("La carpeta no existe o no es un directorio.");
 

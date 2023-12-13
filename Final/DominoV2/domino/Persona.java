@@ -24,6 +24,7 @@ public class Persona extends Jugador {
 
         do {
             System.out.println("Que ficha quieres jugar? (1 - " + fichas.size() + ")");
+            System.out.print("$ ");
             indice = sc.nextInt() - 1;
             if (indice < 0 || indice >= fichas.size())
                 System.out.println("Ficha inválida");
@@ -31,10 +32,10 @@ public class Persona extends Jugador {
 
         do {
             System.out.println("Donde la quieres jugar? (i o d)");
+            System.out.print("$ ");
             orientacion = sc.next().charAt(0);
         } while (orientacion != 'i' && orientacion != 'd');
 
-        sc.close();
         return orientacion + "" + indice;
     }
 }
