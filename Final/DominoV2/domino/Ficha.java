@@ -3,62 +3,61 @@ package domino;
 import java.io.Serializable;
 
 /**
- * Esta clase representa una ficha de domino con dos caras
+ * Representa una ficha de domino con dos caras.
+ * Cada cara tiene un numero, y la ficha puede ser una "mula" si ambas caras son iguales.
  */
-
 public class Ficha implements Serializable {
     private int caraIzq;
     private int caraDer;
     private int suma;
-    private boolean mula = false;
+    private boolean mula;
 
     /**
-     * Metodo constructor que recibe las dos caras de la ficha
-     * @param caraIzq El numero de la cara izquierda
-     * @param caraDer El numero de la cara derecha
+     * Constructor que recibe las dos caras de la ficha.
+     * @param caraIzq Numero de la cara izquierda.
+     * @param caraDer Numero de la cara derecha.
      */
     public Ficha(int caraIzq, int caraDer) {
         this.caraIzq = caraIzq;
         this.caraDer = caraDer;
         this.suma = caraIzq + caraDer;
-        if (caraIzq == caraDer)
-            mula = true;
+        this.mula = (caraIzq == caraDer);
     }
 
     /**
-     * Metodo getter para la cara izquierda
-     * @return Numero de la cara izquierda
+     * Obtiene el numero de la cara izquierda.
+     * @return Numero de la cara izquierda.
      */
     public int getCaraIzq() {
         return caraIzq;
     }
 
     /**
-     * Metodo getter para la cara derecha
-     * @return Numero de la cara derecha
+     * Obtiene el numero de la cara derecha.
+     * @return Numero de la cara derecha.
      */
     public int getCaraDer() {
         return caraDer;
     }
 
     /**
-     * Metodo getter para la suma de las caras
-     * @return Suma de las caras
+     * Obtiene la suma de las caras.
+     * @return Suma de las caras.
      */
     public int getSuma() {
         return suma;
     }
 
     /**
-     * Metodo getter para saber si la ficha es mula
-     * @return true si la ficha es mula, false si no
+     * Comprueba si la ficha es una mula (ambas caras son iguales).
+     * @return `true` si la ficha es una mula, `false` si no.
      */
     public boolean esMula() {
         return mula;
     }
 
     /**
-     * Cambia la cara izquierda por la derecha y viceversa
+     * Gira la ficha intercambiando las caras izquierda y derecha.
      */
     public void girar() {
         int aux = caraIzq;
@@ -67,8 +66,10 @@ public class Ficha implements Serializable {
     }
 
     /**
-     * Imprime la ficha con el formato [caraIzq|caraDer]
+     * Representacion en cadena de la ficha con el formato [caraIzq|caraDer].
+     * @return Cadena que representa la ficha.
      */
+    @Override
     public String toString() {
         return "[" + caraIzq + "|" + caraDer + "]";
     }

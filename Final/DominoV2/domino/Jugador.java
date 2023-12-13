@@ -4,81 +4,84 @@ import java.util.ArrayList;
 import java.io.Serializable;
 
 /**
- * Esta clase abstracta representa un jugador de domino
+ * Clase abstracta que representa un jugador de domino.
  */
-
 public abstract class Jugador implements Serializable {
     protected String nombre;
-    protected ArrayList<Ficha> fichas = new ArrayList<Ficha>();
+    protected ArrayList<Ficha> fichas = new ArrayList<>();
     protected boolean puedeJugar = true;
 
     /**
-     * Metodo getter para el nombre del jugador
-     * @return Nombre del jugador
+     * Obtiene el nombre del jugador.
+     * @return Nombre del jugador.
      */
     public String getNombre() {
         return nombre;
     }
 
     /**
-     * Metodo getter para las fichas del jugador
-     * @return Fichas del jugador
+     * Obtiene las fichas del jugador.
+     * @return Lista de fichas del jugador.
      */
     public ArrayList<Ficha> getFichas() {
         return fichas;
     }
 
     /**
-     * Metodo getter para una ficha especifica del jugador
-     * @param i Indice de la ficha
-     * @return Ficha del jugador
+     * Obtiene una ficha especifica del jugador.
+     * @param i Indice de la ficha.
+     * @return Ficha del jugador.
      */
     public Ficha getFicha(int i) {
         return fichas.get(i);
     }
 
     /**
-     * Agrega una ficha a las fichas del jugador
-     * @param ficha Ficha a agregar
+     * Agrega una ficha a las fichas del jugador.
+     * @param ficha Ficha a agregar.
      */
     public void agregarFicha(Ficha ficha) {
         fichas.add(ficha);
     }
 
     /**
-     * Metodo getter para saber si el jugador puede jugar
-     * @return true si el jugador puede jugar, false si no
+     * Indica si el jugador puede jugar.
+     * @return `true` si el jugador puede jugar, `false` si no.
      */
     public boolean puedeJugar() {
         return puedeJugar;
     }
 
     /**
-     * Metodo setter para saber si el jugador puede jugar
-     * @param mesa La fichas de la mesa actual
-     * @return puedeJugar true si el jugador puede jugar, false si no
+     * Verifica si el jugador puede jugar con las fichas disponibles.
+     * @param mesa Fichas de la mesa actual.
+     * @return `true` si el jugador puede jugar, `false` si no.
      */
     public boolean puedeJugar(ArrayList<Ficha> mesa) {
         puedeJugar = fichas.stream().anyMatch(ficha ->
-            ficha.getCaraIzq() == mesa.get(0).getCaraIzq() ||
-            ficha.getCaraDer() == mesa.get(0).getCaraIzq() ||
-            ficha.getCaraIzq() == mesa.get(mesa.size() - 1).getCaraDer() ||
-            ficha.getCaraDer() == mesa.get(mesa.size() - 1).getCaraDer()
+                ficha.getCaraIzq() == mesa.get(0).getCaraIzq() ||
+                        ficha.getCaraDer() == mesa.get(0).getCaraIzq() ||
+                        ficha.getCaraIzq() == mesa.get(mesa.size() - 1).getCaraDer() ||
+                        ficha.getCaraDer() == mesa.get(mesa.size() - 1).getCaraDer()
         );
         return puedeJugar;
     }
 
     /**
-     * Metodo para robar una ficha del pozo
-     * @param pozo El pozo de fichas
+     * Roba una ficha del pozo y la agrega a las fichas del jugador.
+     * @param pozo Pozo de fichas.
      */
     public void robar(ArrayList<Ficha> pozo) {
         fichas.add(pozo.get(0));
         pozo.remove(0);
     }
 
+    /**
+     * Realiza la jugada del primer turno, eligiendo la ficha mas alta.
+     * @param mesa Fichas de la mesa.
+     */
     public void primerTurno(ArrayList<Ficha> mesa) {
-        int indice = -1; 
+        int indice = -1;
         int max = -1;
 
         for (Ficha ficha : fichas) {
@@ -104,19 +107,23 @@ public abstract class Jugador implements Serializable {
         fichas.remove(indice);
     }
 
+    /**
+     * Realiza la jugada en un turno normal.
+     * @param mesa Fichas de la mesa.
+     */
     public final void turno(ArrayList<Ficha> mesa) {
         int indice = -1;
         char orientacion;
         String respuesta;
-        boolean validacion = true;
+        boolean validacion;
 
         do {
             respuesta = buscarFicha(mesa);
             orientacion = respuesta.charAt(0);
             indice = Integer.parseInt(respuesta.substring(1));
-            validacion = validarFicha(mesa, indice, orientacion);  
+            validacion = validarFicha(mesa, indice, orientacion);
             if (!validacion)
-                System.out.println("Ficha inválida\n");
+                System.out.println("Ficha invalida\n");
         } while (!validacion);
 
         System.out.println(nombre + " juegas la ficha: " + (indice + 1) + " - " + fichas.get(indice));
@@ -124,8 +131,20 @@ public abstract class Jugador implements Serializable {
         jugarFicha(mesa, indice, orientacion);
     }
 
+    /**
+     * Metodo abstracto para buscar la ficha a jugar.
+     * @param mesa Fichas de la mesa.
+     * @return Representacion de la jugada (orientacion + indice).
+     */
     protected abstract String buscarFicha(ArrayList<Ficha> mesa);
 
+    /**
+     * Valida si una ficha puede ser jugada en la mesa en la orientacion indicada.
+     * @param mesa Fichas de la mesa actual.
+     * @param indice indice de la ficha a jugar.
+     * @param orientacion Orientacion de la ficha ('i' o 'd').
+     * @return true si la ficha es valida para jugar, false si no.
+     */
     private boolean validarFicha(ArrayList<Ficha> mesa, int indice, char orientacion) {
         switch (orientacion) {
             case 'i':
@@ -151,6 +170,12 @@ public abstract class Jugador implements Serializable {
         }
     }
 
+    /**
+     * Juega la ficha en la mesa segun la orientación.
+     * @param mesa Fichas de la mesa.
+     * @param indice Indice de la ficha a jugar.
+     * @param orientacion Orientacion de la ficha ('i' o 'd').
+     */
     private void jugarFicha(ArrayList<Ficha> mesa, int indice, char orientacion) {
         if (orientacion == 'i')
             mesa.add(0, fichas.get(indice));

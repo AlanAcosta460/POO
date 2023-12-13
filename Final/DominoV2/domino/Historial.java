@@ -9,7 +9,14 @@ import java.io.FileReader;
 import java.io.PrintWriter;
 import java.io.FileWriter;
 
+/**
+ * Gestiona el historial de partidas guardando y recuperando informacion sobre las mismas.
+ */
 public class Historial {
+    /**
+     * Obtiene el historial de partidas guardadas.
+     * @return Lista de objetos `Partida` que representan el historial.
+     */
     public static ArrayList<Partida> getHistorial() {
         ArrayList<Partida> historial = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader("historial/historial.txt"))) {
@@ -24,8 +31,13 @@ public class Historial {
             System.out.println("Error al leer el historial");
         }
         return historial;
-    } 
+    }
 
+    /**
+     * Guarda el resultado de una partida en el historial.
+     * @param nombre Nombre del ganador de la partida.
+     * @param turno Numero de turnos que duro la partida.
+     */
     public static void guardarResultado(String nombre, int turno) {
         try (PrintWriter ps = new PrintWriter(new FileWriter("historial/historial.txt", true))) {
             Date fecha = new Date();
