@@ -13,14 +13,13 @@ public class Historial {
     public static ArrayList<Partida> getHistorial() {
         ArrayList<Partida> historial = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader("historial/historial.txt"))) {
-            String linea;
-            while ((linea = br.readLine()) != null) {
+            br.lines().forEach(linea -> {
                 StringTokenizer st = new StringTokenizer(linea, "|");
                 String nombre = st.nextToken();
                 int turno = Integer.parseInt(st.nextToken());
                 String fecha = st.nextToken();
                 historial.add(new Partida(nombre, turno, fecha));
-            }
+            });
         } catch (Exception e) {
             System.out.println("Error al leer el historial");
         }

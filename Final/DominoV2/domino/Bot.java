@@ -53,12 +53,10 @@ public class Bot extends Jugador {
         int cantidadPosibilidades = 0;
 
         for (Ficha mesaFicha : mesa) {
-            if (ficha.getCaraIzq() == mesaFicha.getCaraIzq() || ficha.getCaraDer() == mesaFicha.getCaraDer()) {
+            if (ficha.getCaraIzq() == mesaFicha.getCaraIzq() || ficha.getCaraDer() == mesaFicha.getCaraDer()) 
                 cantidadPosibilidades++;
-            }
-            if (ficha.getCaraIzq() == mesaFicha.getCaraDer() || ficha.getCaraDer() == mesaFicha.getCaraIzq()) {
+            if (ficha.getCaraIzq() == mesaFicha.getCaraDer() || ficha.getCaraDer() == mesaFicha.getCaraIzq()) 
                 cantidadPosibilidades++;
-            }
         }
 
         return cantidadPosibilidades;

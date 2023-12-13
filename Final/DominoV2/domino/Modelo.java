@@ -2,6 +2,7 @@ package domino;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class Modelo {
     private ArrayList<Ficha> mesa = new ArrayList<Ficha>();
@@ -67,19 +68,11 @@ public class Modelo {
             for (int j = i; j <= 6; j++)
                 pozo.add(new Ficha(i, j));
 
-        for (int i = 0; i < pozo.size(); i++) {
-            int j = random.nextInt(pozo.size());
-            Ficha aux = pozo.get(i);
-            pozo.set(i, pozo.get(j));
-            pozo.set(j, aux);
-        }
+        pozo = pozo.stream().sorted((ficha1, ficha2) -> random.nextInt(3) - 1) 
+                    .collect(Collectors.toCollection(ArrayList::new));
 
-        for (int i = 0; i < 7; i++) {
-            for (Jugador jugador : jugadores) {
-                jugador.agregarFicha(pozo.get(0));
-                pozo.remove(0);
-            }
-        }
+        for (int i = 0; i < 7; i++)
+            jugadores.forEach(jugador -> jugador.agregarFicha(pozo.remove(0)));
     }
 
     private void decidirPrimerTurno() {

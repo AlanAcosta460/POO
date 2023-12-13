@@ -48,19 +48,16 @@ public class Configuracion implements Serializable {
             File[] archivos = carpeta.listFiles();
 
             if (archivos != null) {
-                List<String> nombresArchivos = new ArrayList<>(
-                    Arrays.stream(carpeta.listFiles())
-                            .map(File::getName)
-                            .collect(Collectors.toList())
-                );
-                listaArchivos.addAll(nombresArchivos);
+                listaArchivos.addAll(Arrays.stream(archivos)
+                        .map(File::getName)
+                        .collect(Collectors.toList()));
                 return listaArchivos;
             } else
-                System.out.println("La carpeta esta vacia.");
+                System.out.println("La carpeta está vacía.");
         } else
             System.out.println("La carpeta no existe o no es un directorio.");
 
-        return null;        
+        return null;     
     }
 
     public static void guardarConfiguracion(String nombreArchivo, ArrayList<Ficha> pozo, ArrayList<Jugador> jugadores) {

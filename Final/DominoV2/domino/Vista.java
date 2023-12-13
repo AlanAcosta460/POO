@@ -15,6 +15,12 @@ public class Vista {
         } catch (Exception e) {}
     }
 
+    public static void continuar() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("\n\nPresione enter para continuar...");
+        sc.nextLine();
+    }
+
     public static void pedirNombre() {
         System.out.println("%%%%%%%%%%%%%%% Ingrese su nombre %%%%%%%%%%%%%%%");
         System.out.print("$ ");

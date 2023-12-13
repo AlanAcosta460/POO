@@ -59,13 +59,12 @@ public abstract class Jugador implements Serializable {
      * @return puedeJugar true si el jugador puede jugar, false si no
      */
     public boolean puedeJugar(ArrayList<Ficha> mesa) {
-        puedeJugar = false;
-        for (Ficha ficha : fichas)
-            if (ficha.getCaraIzq() == mesa.get(0).getCaraIzq() || 
-                    ficha.getCaraDer() == mesa.get(0).getCaraIzq() || 
-                    ficha.getCaraIzq() == mesa.get(mesa.size() - 1).getCaraDer() || 
-                    ficha.getCaraDer() == mesa.get(mesa.size() - 1).getCaraDer()) 
-                puedeJugar = true;    
+        puedeJugar = fichas.stream().anyMatch(ficha ->
+            ficha.getCaraIzq() == mesa.get(0).getCaraIzq() ||
+            ficha.getCaraDer() == mesa.get(0).getCaraIzq() ||
+            ficha.getCaraIzq() == mesa.get(mesa.size() - 1).getCaraDer() ||
+            ficha.getCaraDer() == mesa.get(mesa.size() - 1).getCaraDer()
+        );
         return puedeJugar;
     }
 

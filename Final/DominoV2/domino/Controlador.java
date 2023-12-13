@@ -7,7 +7,7 @@ public class Controlador {
     private static Scanner sc = new Scanner(System.in);
     private static Modelo modelo;
     private static Musica musica = new Musica();
-    private static final int ESPERA = 000;
+    private static final int ESPERA =3000;
     private static int opcion = 0;
 
     public static void main(String[] args) {
@@ -31,16 +31,12 @@ public class Controlador {
                     break;
                 case 3: 
                     Vista.mostrarHistorial(Historial.getHistorial());
-                    System.out.println("\n\nPresione enter para continuar...");
-                    sc.nextLine();
-                    sc.nextLine();
+                    Vista.continuar();
                     continue;
                 case 4:
                     ArrayList<String> configuraciones = Configuracion.getListaArchivos();
                     if (configuraciones == null) {
-                        System.out.println("\n\nPresione enter para continuar...");
-                        sc.nextLine();      
-                        sc.nextLine();
+                        Vista.continuar();
                         continue;
                     } else {
                         Vista.mostrarArchivos(configuraciones);
@@ -109,7 +105,7 @@ public class Controlador {
                 Vista.mostrarGanador(resultado);
 
             Historial.guardarResultado(resultado, modelo.getTurno());
-            esperar(5000);   
+            Vista.continuar();
         }
     }
 
