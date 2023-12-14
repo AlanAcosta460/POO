@@ -22,7 +22,7 @@ public class Bot extends Jugador {
      * @return Intruccion que representa la eleccion de la ficha y su orientacion ('i' o 'd').
      */
     @Override
-    public String buscarFicha(ArrayList<Ficha> mesa) {
+    protected String buscarFicha(ArrayList<Ficha> mesa) {
         Ficha mejorFicha = null;
         int mejorPuntuacion = Integer.MIN_VALUE;
 

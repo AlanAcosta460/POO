@@ -22,7 +22,7 @@ public class Persona extends Jugador {
      * @return Cadena que representa la accion del jugador (orientacion + indice).
      */
     @Override
-    public String buscarFicha(ArrayList<Ficha> mesaActual) {
+    protected String buscarFicha(ArrayList<Ficha> mesaActual) {
         Scanner sc = new Scanner(System.in);
         int indice = -1;
         char orientacion = ' ';

@@ -136,7 +136,7 @@ public abstract class Jugador implements Serializable {
      * @param mesa Fichas de la mesa.
      * @return Representacion de la jugada (orientacion + indice).
      */
-    public abstract String buscarFicha(ArrayList<Ficha> mesa);
+    protected abstract String buscarFicha(ArrayList<Ficha> mesa);
 
     /**
      * Valida si una ficha puede ser jugada en la mesa en la orientacion indicada.
