@@ -15,8 +15,10 @@ public class Controlador {
 
     /**
      * Metodo principal que inicia y controla el juego de domino.
-     * Permite a los jugadores iniciar una nueva partida, cargar una partida guardada o ver el historial.
-     * Ademas, gestiona el desarrollo del juego, la logica del turno y decide al ganador.
+     * Permite a los jugadores iniciar una nueva partida, cargar una partida
+     * guardada o ver el historial.
+     * Ademas, gestiona el desarrollo del juego, la logica del turno y decide al
+     * ganador.
      */
     public static void main(String[] args) {
         while (true) {
@@ -53,7 +55,7 @@ public class Controlador {
                         int respuesta = sc.nextInt();
                         if (respuesta > 0 && respuesta <= configuraciones.size()) {
                             Configuracion conf = new Configuracion(
-                                configuraciones.get(respuesta - 1));
+                                    configuraciones.get(respuesta - 1));
                             modelo = new Modelo(conf);
                         } else
                             continue;
@@ -73,26 +75,14 @@ public class Controlador {
                 Vista.mostrarTurno(modelo.getJugador(0).getNombre());
                 Vista.mostrarFichas(modelo.getJugador(0).getFichas());
 
-                if (modelo.getTurno() == 1) {
-                    modelo.getJugador(0).primerTurno(modelo.getMesa());
-                    esperar(ESPERA);
-                }
-                else {
-                    if (modelo.getJugador(0).puedeJugar(modelo.getMesa())) {
-                        if (modelo.getJugador(0) instanceof Bot)
-                            esperar(ESPERA);
-                        modelo.getJugador(0).turno(modelo.getMesa());
-                    } else {
-                        if (modelo.getTamanioPozo() == 0)
-                            System.out.println("No puedes jugar, pasas el turno");
-                        else {
-                            esperar(ESPERA);
-                            System.out.println("No puedes jugar, robas una ficha");
-                            esperar(ESPERA);
-                            modelo.getJugador(0).robar(modelo.getPozo());
-                            Vista.mostrarFichas(modelo.getJugador(0).getFichas());
-                        }
-                    }
+                HiloTurno hiloJugador = new HiloTurno(modelo.getJugador(0), modelo.getMesa(), modelo.getTurno(),
+                        modelo.getTamanioPozo());
+                hiloJugador.start();
+
+                try {
+                    hiloJugador.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
 
                 esperar(ESPERA);
@@ -119,7 +109,61 @@ public class Controlador {
     }
 
     /**
+     * Representa un hilo para manejar el turno de un jugador en un juego de dominó.
+     */
+    public static class HiloTurno extends Thread {
+        private Jugador jugador;
+        private ArrayList<Ficha> mesa;
+        private int turno;
+        private int tamanioPozo;
+
+        /**
+         * Construye un nuevo objeto HiloTurno.
+         * 
+         * @param jugador     el jugador asociado con el hilo
+         * @param mesa        la lista de fichas de dominó en la mesa
+         * @param turno       el número de turno actual
+         * @param tamanioPozo el tamaño del montón de robo
+         */
+        public HiloTurno(Jugador jugador, ArrayList<Ficha> mesa, int turno, int tamanioPozo) {
+            this.jugador = jugador;
+            this.mesa = mesa;
+            this.turno = turno;
+            this.tamanioPozo = tamanioPozo;
+        }
+
+        /**
+         * Ejecuta la lógica del turno del jugador.
+         */
+        @Override
+        public void run() {
+            if (turno == 1) {
+                jugador.primerTurno(mesa);
+                esperar(ESPERA);
+            }
+            else {
+                if (jugador.puedeJugar(mesa)) {
+                    if (jugador instanceof Bot)
+                        esperar(ESPERA);
+                    jugador.turno(mesa);
+                } else {
+                    if (tamanioPozo == 0)
+                        System.out.println("No puedes jugar, pasas el turno");
+                    else {
+                        esperar(ESPERA);
+                        System.out.println("No puedes jugar, robas una ficha");
+                        esperar(ESPERA);
+                        jugador.robar(modelo.getPozo());
+                        Vista.mostrarFichas(jugador.getFichas());
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Hace que el programa espere un tiempo determinado.
+     * 
      * @param tiempo Tiempo en milisegundos.
      */
     private static void esperar(int tiempo) {
@@ -135,22 +179,10 @@ public class Controlador {
      * Si la respuesta es afirmativa, solicita un nombre y guarda la configuracion.
      */
     private static void guardarConfiguracion() {
-        char respuesta = ' ';
-
-        do {
-            try {
-                System.out.println("\n¿Quieres guardar la configuracion de la partida? (s/n)");
-                System.out.print("$ ");
-                respuesta = sc.next().charAt(0);
-                respuesta = Character.toLowerCase(respuesta);
-                if (respuesta != 's' && respuesta != 'n')
-                    throw new RespuestaInvalidaException("Respuesta no válida. Debe ser 's' o 'n'.");
-            } catch (RespuestaInvalidaException e) {
-                System.out.println(e.getMessage());
-            }
-        } while (respuesta != 's' && respuesta != 'n');
-        
-
+        System.out.println("\n¿Quieres guardar la configuracion de la partida? (s/n)");
+        System.out.print("$ ");
+        char respuesta = sc.next().charAt(0);
+        respuesta = Character.toLowerCase(respuesta);
         if (respuesta == 's') {
             System.out.println("\nIngrese el nombre de la partida");
             System.out.print("$ ");
@@ -160,21 +192,24 @@ public class Controlador {
     }
 
     /**
-     * Verifica si el juego debe continuar, basandose en si los jugadores pueden jugar o si hay fichas en el pozo.
+     * Verifica si el juego debe continuar, basandose en si los jugadores pueden
+     * jugar o si hay fichas en el pozo.
+     * 
      * @return `true` si el juego debe continuar, `false` si no.
      */
     private static boolean continuarJuego() {
-        return (modelo.getJugador(0).puedeJugar() || 
-                modelo.getJugador(1).puedeJugar()) || 
+        return (modelo.getJugador(0).puedeJugar() ||
+                modelo.getJugador(1).puedeJugar()) ||
                 modelo.getTamanioPozo() != 0;
     }
 
     /**
      * Decide al ganador basandose en las condiciones del juego.
+     * 
      * @return Nombre del ganador o "Empate".
      */
     private static String decidirGanador() {
-        if (!modelo.getJugador(0).puedeJugar() && 
+        if (!modelo.getJugador(0).puedeJugar() &&
                 !modelo.getJugador(1).puedeJugar() &&
                 modelo.getTamanioPozo() == 0) {
             int fichasJugador1 = modelo.getJugador(0).getFichas().size();
@@ -186,7 +221,7 @@ public class Controlador {
                 return modelo.getJugador(1).getNombre();
             else
                 return "Empate";
-        } else 
+        } else
             return modelo.getJugador(0).getNombre();
     }
 }
