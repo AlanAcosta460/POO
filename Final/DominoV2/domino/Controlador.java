@@ -73,8 +73,10 @@ public class Controlador {
                 Vista.mostrarTurno(modelo.getJugador(0).getNombre());
                 Vista.mostrarFichas(modelo.getJugador(0).getFichas());
 
-                if (modelo.getTurno() == 1)
+                if (modelo.getTurno() == 1) {
                     modelo.getJugador(0).primerTurno(modelo.getMesa());
+                    esperar(ESPERA);
+                }
                 else {
                     if (modelo.getJugador(0).puedeJugar(modelo.getMesa())) {
                         if (modelo.getJugador(0) instanceof Bot)
@@ -133,10 +135,22 @@ public class Controlador {
      * Si la respuesta es afirmativa, solicita un nombre y guarda la configuracion.
      */
     private static void guardarConfiguracion() {
-        System.out.println("\n¿Quieres guardar la configuracion de la partida? (s/n)");
-        System.out.print("$ ");
-        char respuesta = sc.next().charAt(0);
-        respuesta = Character.toLowerCase(respuesta);
+        char respuesta = ' ';
+
+        do {
+            try {
+                System.out.println("\n¿Quieres guardar la configuracion de la partida? (s/n)");
+                System.out.print("$ ");
+                respuesta = sc.next().charAt(0);
+                respuesta = Character.toLowerCase(respuesta);
+                if (respuesta != 's' && respuesta != 'n')
+                    throw new RespuestaInvalidaException("Respuesta no válida. Debe ser 's' o 'n'.");
+            } catch (RespuestaInvalidaException e) {
+                System.out.println(e.getMessage());
+            }
+        } while (respuesta != 's' && respuesta != 'n');
+        
+
         if (respuesta == 's') {
             System.out.println("\nIngrese el nombre de la partida");
             System.out.print("$ ");

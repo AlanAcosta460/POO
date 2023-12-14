@@ -7,7 +7,6 @@ import java.util.ArrayList;
  * Extiende la clase abstracta Jugador.
  */
 public class Bot extends Jugador {
-
     /**
      * Constructor de la clase Bot.
      * @param nombre Nombre del bot.

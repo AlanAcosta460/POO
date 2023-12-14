@@ -7,13 +7,12 @@ import java.util.Scanner;
  * Clase que maneja la interfaz y la presentacion del juego de domino.
  */
 public class Vista {
-
     /**
      * Metodo para limpiar la pantalla.
      */
     public static void limpiarPantalla() {
+        // Windows
         try {
-            // Windows
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         } catch (Exception e) {}
 

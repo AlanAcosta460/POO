@@ -24,21 +24,31 @@ public class Persona extends Jugador {
     @Override
     protected String buscarFicha(ArrayList<Ficha> mesaActual) {
         Scanner sc = new Scanner(System.in);
-        int indice;
-        char orientacion;
+        int indice = -1;
+        char orientacion = ' ';
 
         do {
-            System.out.println("¿Que ficha deseas jugar? (1 - " + fichas.size() + ")");
-            System.out.print("$ ");
-            indice = sc.nextInt() - 1;
-            if (indice < 0 || indice >= fichas.size())
-                System.out.println("Ficha inválida");
+            try {
+                System.out.println("\nQue ficha deseas jugar? (1 - " + fichas.size() + ")");
+                System.out.print("$ ");
+                indice = sc.nextInt() - 1;
+                if (indice < 0 || indice >= fichas.size())
+                    throw new IndiceFichaInvalidoException("Índice de ficha no válido. Debe ser entre 1 y " + fichas.size());
+            } catch (IndiceFichaInvalidoException e) {
+                System.out.println(e.getMessage() + "\n");
+            }
         } while (indice < 0 || indice >= fichas.size());
-
+        
         do {
-            System.out.println("Donde la quieres jugar? (i o d)");
-            System.out.print("$ ");
-            orientacion = sc.next().charAt(0);
+            try {
+                System.out.println("Donde la quieres jugar? (i o d)");
+                System.out.print("$ ");
+                orientacion = sc.next().charAt(0);
+                if (orientacion != 'i' && orientacion != 'd') 
+                    throw new OrientacionInvalidaException("Orientación no válida. Debe ser 'i' o 'd'.");
+            } catch (OrientacionInvalidaException e) {
+                System.out.println(e.getMessage() + "\n");
+            }
         } while (orientacion != 'i' && orientacion != 'd');
 
         return orientacion + "" + indice;

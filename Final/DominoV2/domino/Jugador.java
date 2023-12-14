@@ -92,7 +92,7 @@ public abstract class Jugador implements Serializable {
         }
 
         if (indice != -1)
-            System.out.println(nombre + " juega la mula mas alta: " + fichas.get(indice));
+            System.out.println("\n" + nombre + " juega la mula mas alta: " + fichas.get(indice));
         else {
             for (Ficha ficha : fichas) {
                 if (ficha.getSuma() > max) {
@@ -100,7 +100,7 @@ public abstract class Jugador implements Serializable {
                     indice = fichas.indexOf(ficha);
                 }
             }
-            System.out.println(nombre + " juega la ficha mas alta: " + fichas.get(indice));
+            System.out.println("\n" + nombre + " juega la ficha mas alta: " + fichas.get(indice));
         }
 
         mesa.add(fichas.get(indice));
@@ -126,7 +126,7 @@ public abstract class Jugador implements Serializable {
                 System.out.println("Ficha invalida\n");
         } while (!validacion);
 
-        System.out.println(nombre + " juegas la ficha: " + (indice + 1) + " - " + fichas.get(indice));
+        System.out.println("\n" + nombre + " juegas la ficha: " + (indice + 1) + " - " + fichas.get(indice));
 
         jugarFicha(mesa, indice, orientacion);
     }
