@@ -140,8 +140,7 @@ public class Controlador {
             if (turno == 1) {
                 jugador.primerTurno(mesa);
                 esperar(ESPERA);
-            }
-            else {
+            } else {
                 if (jugador.puedeJugar(mesa)) {
                     if (jugador instanceof Bot)
                         esperar(ESPERA);

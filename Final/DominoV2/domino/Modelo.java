@@ -57,8 +57,8 @@ public class Modelo {
     }
 
     /**
-     * Obtiene el tamaño de la mesa.
-     * @return Tamaño de la mesa.
+     * Obtiene el tamanio de la mesa.
+     * @return Tamanio de la mesa.
      */
     public int getTamanioMesa() {
         return mesa.size();
@@ -73,8 +73,8 @@ public class Modelo {
     }
 
     /**
-     * Obtiene el tamaño del pozo.
-     * @return Tamaño del pozo.
+     * Obtiene el tamanio del pozo.
+     * @return Tamanio del pozo.
      */
     public int getTamanioPozo() {
         return pozo.size();

@@ -36,15 +36,14 @@ public class Bot extends Jugador {
 
         if (mejorFicha != null) {
             int indice = fichas.indexOf(mejorFicha);
-            if (mejorFicha.getCaraIzq() == mesa.get(0).getCaraIzq()) {
+            if (mejorFicha.getCaraIzq() == mesa.get(0).getCaraIzq()) 
                 return "i" + indice;
-            } else if (mejorFicha.getCaraDer() == mesa.get(0).getCaraIzq()) {
+            else if (mejorFicha.getCaraDer() == mesa.get(0).getCaraIzq()) 
                 return "i" + indice;
-            } else if (mejorFicha.getCaraIzq() == mesa.get(mesa.size() - 1).getCaraDer()) {
+            else if (mejorFicha.getCaraIzq() == mesa.get(mesa.size() - 1).getCaraDer()) 
                 return "d" + indice;
-            } else if (mejorFicha.getCaraDer() == mesa.get(mesa.size() - 1).getCaraDer()) {
+            else if (mejorFicha.getCaraDer() == mesa.get(mesa.size() - 1).getCaraDer()) 
                 return "d" + indice;
-            }
         }
 
         return elegirFichaGenerica(mesa);
@@ -71,12 +70,10 @@ public class Bot extends Jugador {
         int cantidadPosibilidades = 0;
 
         for (Ficha mesaFicha : mesa) {
-            if (ficha.getCaraIzq() == mesaFicha.getCaraIzq() || ficha.getCaraDer() == mesaFicha.getCaraDer()) {
+            if (ficha.getCaraIzq() == mesaFicha.getCaraIzq() || ficha.getCaraDer() == mesaFicha.getCaraDer()) 
                 cantidadPosibilidades++;
-            }
-            if (ficha.getCaraIzq() == mesaFicha.getCaraDer() || ficha.getCaraDer() == mesaFicha.getCaraIzq()) {
+            if (ficha.getCaraIzq() == mesaFicha.getCaraDer() || ficha.getCaraDer() == mesaFicha.getCaraIzq()) 
                 cantidadPosibilidades++;
-            }
         }
 
         return cantidadPosibilidades;
@@ -89,15 +86,14 @@ public class Bot extends Jugador {
      */
     private String elegirFichaGenerica(ArrayList<Ficha> mesa) {
         for (Ficha ficha : fichas) {
-            if (ficha.getCaraIzq() == mesa.get(0).getCaraIzq()) {
+            if (ficha.getCaraIzq() == mesa.get(0).getCaraIzq()) 
                 return "i" + fichas.indexOf(ficha);
-            } else if (ficha.getCaraDer() == mesa.get(0).getCaraIzq()) {
+            else if (ficha.getCaraDer() == mesa.get(0).getCaraIzq()) 
                 return "i" + fichas.indexOf(ficha);
-            } else if (ficha.getCaraIzq() == mesa.get(mesa.size() - 1).getCaraDer()) {
+            else if (ficha.getCaraIzq() == mesa.get(mesa.size() - 1).getCaraDer()) 
                 return "d" + fichas.indexOf(ficha);
-            } else if (ficha.getCaraDer() == mesa.get(mesa.size() - 1).getCaraDer()) {
+            else if (ficha.getCaraDer() == mesa.get(mesa.size() - 1).getCaraDer()) 
                 return "d" + fichas.indexOf(ficha);
-            }
         }
 
         return null;

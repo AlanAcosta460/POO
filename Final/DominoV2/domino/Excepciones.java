@@ -1,12 +1,12 @@
 package domino;
 
 /**
- * Excepción lanzada cuando se recibe una respuesta inválida.
+ * Excepcion lanzada cuando se recibe una respuesta invalida.
  */
 class RespuestaInvalidaException extends Exception {
     /**
-     * Constructor de la excepción.
-     * @param mensaje Mensaje que describe la naturaleza de la respuesta inválida.
+     * Constructor de la excepcion.
+     * @param mensaje Mensaje que describe la naturaleza de la respuesta invalida.
      */
     public RespuestaInvalidaException(String mensaje) {
         super(mensaje);
@@ -14,12 +14,12 @@ class RespuestaInvalidaException extends Exception {
 }
 
 /**
- * Excepción lanzada cuando se recibe un índice de ficha inválido.
+ * Excepcion lanzada cuando se recibe un indice de ficha invalido.
  */
 class IndiceFichaInvalidoException extends Exception {
     /**
-     * Constructor de la excepción.
-     * @param mensaje Mensaje que describe la naturaleza del índice de ficha inválido.
+     * Constructor de la excepcion.
+     * @param mensaje Mensaje que describe la naturaleza del indice de ficha invalido.
      */
     public IndiceFichaInvalidoException(String mensaje) {
         super(mensaje);
@@ -27,12 +27,12 @@ class IndiceFichaInvalidoException extends Exception {
 }
 
 /**
- * Excepción lanzada cuando se recibe una orientación inválida.
+ * Excepcion lanzada cuando se recibe una orientacion invalida.
  */
 class OrientacionInvalidaException extends Exception {
     /**
-     * Constructor de la excepción.
-     * @param mensaje Mensaje que describe la naturaleza de la orientación inválida.
+     * Constructor de la excepcion.
+     * @param mensaje Mensaje que describe la naturaleza de la orientacion invalida.
      */
     public OrientacionInvalidaException(String mensaje) {
         super(mensaje);
