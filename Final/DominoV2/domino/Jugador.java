@@ -136,7 +136,7 @@ public abstract class Jugador implements Serializable {
      * @param mesa Fichas de la mesa.
      * @return Representacion de la jugada (orientacion + indice).
      */
-    protected abstract String buscarFicha(ArrayList<Ficha> mesa);
+    public abstract String buscarFicha(ArrayList<Ficha> mesa);
 
     /**
      * Valida si una ficha puede ser jugada en la mesa en la orientacion indicada.
@@ -172,11 +172,12 @@ public abstract class Jugador implements Serializable {
 
     /**
      * Juega la ficha en la mesa segun la orientación.
+     * Este metodo es sincronizado para evitar que dos jugadores jueguen la misma ficha.
      * @param mesa Fichas de la mesa.
      * @param indice Indice de la ficha a jugar.
      * @param orientacion Orientacion de la ficha ('i' o 'd').
      */
-    private void jugarFicha(ArrayList<Ficha> mesa, int indice, char orientacion) {
+    private synchronized void jugarFicha(ArrayList<Ficha> mesa, int indice, char orientacion) {
         if (orientacion == 'i')
             mesa.add(0, fichas.get(indice));
         else if (orientacion == 'd')
